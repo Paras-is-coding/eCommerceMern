@@ -90,3 +90,19 @@
 - Includes middlewares(functions or class) if class export obj of class
 - we can use that obj anywhere(in router) _ is SINGLETON pattern 
 
+
+# Form data handeling(file upload)
+- we'll use multr middleware
+- npm i multer 
+- src/middlewares/uploader.js 
+- import multer and fs 
+- create myStorage = multer.diskStorage({destination: (req,file,cb)=>{}, filename:(req,file,cb)=>{}})
+- uploader = multer({storage:myStorage})
+# make dirSetup 
+    - middleware and use in route handler before using uploader , add req.uploadDir
+- use middleware uploader.none/single/array('key_egimage') after route in routerHandler
+- req.file/files > to get file/s  
+
+# Validation 
+- image/file type and size of file is validated in uploader middleware itself 
+
