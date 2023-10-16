@@ -5,7 +5,7 @@ const router = require('../router/index.js');
 const app = express();
 
 // mount router to app for using router level middlewares
-app.use(router)
+app.use('/api/v1/',router)
 
 
 
