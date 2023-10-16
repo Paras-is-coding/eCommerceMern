@@ -106,3 +106,7 @@
 # Validation 
 - image/file type and size of file is validated in uploader middleware itself 
 
+# Handeling multer error
+- since there is no status in multer error we handle 
+- in error handler look if (error instanceof MulterError) then look for the multer and set code accordingly
+

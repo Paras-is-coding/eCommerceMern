@@ -1,5 +1,6 @@
 const express = require('express');
 const router = require('../router/index.js');
+const { MulterError } = require('multer');
 
 //create express app
 const app = express();
@@ -20,9 +21,17 @@ app.use((req,res,next)=>{
 })
 
 app.use((error,req,res,next)=>{
-    const code = error.code ?? 500;
-    const message = error.message ?? "Internal server error!";
-    const result = error.result ?? null;
+    let code = error.code ?? 500;
+    let message = error.message ?? "Internal server error!";
+    let result = error.result ?? null;
+
+    if(error instanceof MulterError){
+        if(error.code === 'LIMIT_FILE_SIZE'){
+            code = 400;
+            message = error.message;
+        }
+        // similarly other multer errors are handled here
+    }
 
     res.status(code).json({
         result:result,
