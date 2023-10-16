@@ -64,3 +64,11 @@
     #     router/
 
 
+# 404 error handler
+- When there is no route handleling middlewares, call goes here 
+- we'll return 404 page not found error
+
+# Error Handeling middleware
+- written at the end of express.config.js , has one (error ,...) param in middleware
+- next(with param) will call this middleware
+- used to handle exceptions like _ validation failure, db query failure, fileupload exception,etc
