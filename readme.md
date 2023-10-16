@@ -84,3 +84,9 @@
     - for form_data we need a third party plugin 'multer'
 
 
+
+# Controller
+- File we make to shift business logic of route handler
+- Includes middlewares(functions or class) if class export obj of class
+- we can use that obj anywhere(in router) _ is SINGLETON pattern 
+
