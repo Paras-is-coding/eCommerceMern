@@ -110,3 +110,24 @@
 - since there is no status in multer error we handle 
 - in error handler look if (error instanceof MulterError) then look for the multer and set code accordingly
 
+# Validating other data 
+- TWO WAYS :
+    - custom validation  -> manually validate each field (validation is done in beginning of controller function) 
+    eg if(check invalid condn){ next({code:,message:})}
+
+    -  package based validation -> ZOD(backend),JOI(frontend), YUP(backend), ajv, class-validator  are some popular packages
+
+# ZOD - look documentation
+- auth.validator.js
+- npm i zod
+- import {z} form z
+- create mySchema(for expected data)
+    EG: const regSchema = z.object({
+        username : z.string().min(2).max(50),
+        email : z.string().email(),
+        role : z.string().regx(/admin|customer|seller/).default('customer')
+    })
+- Now you can export this schema and use to validate payload
+- let validatedData = regSchema.parse(payload) // returns payload or error
+
+- middlewares/validate-request.middleware.js  -> func Validator(schema){returns middleware} , call func in router before heading to controller
