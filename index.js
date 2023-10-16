@@ -1,10 +1,11 @@
 const http = require('http');
+const app = require('./src/config/express.config.js')
 
-// create node server we'll mount express app here
-const server = http.createServer();
+// create node server and mounted express app
+const server = http.createServer(app);
 
 
-// listening to server in any port or server
+// listening to server in any port on server
 server.listen('3000','localhost',(err)=>{
     if(!err){
         console.log("Server is running in port 3000")
