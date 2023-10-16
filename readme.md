@@ -131,3 +131,9 @@
 - let validatedData = regSchema.parse(payload) // returns payload or error
 
 - middlewares/validate-request.middleware.js  -> func Validator(schema){returns middleware} , call func in router before heading to controller
+
+
+# ZOD error handeling 
+- same as multer error handeling 
+- in error handling middleware check for if(error instanceof ZodError)
+- set code = 400, message = "Validation failure!" and result= msg(ie obj of error messages)
