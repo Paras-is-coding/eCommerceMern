@@ -27,3 +27,10 @@
 - res.json/text()
 - res.status(val).json/send/etc()
 - 200 , 400 and 500 status code impt
+
+# Routing level middleware
+- src/router/index.js
+    - router = require('express').Router()
+    - It's different app so mount to express app 
+- can use in similar fashion as app level midd. & can also group 
+    eg: router.route('/category').get().post().etc
