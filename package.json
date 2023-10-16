@@ -1,0 +1,16 @@
+{
+  "name": "ecommercemern",
+  "version": "1.0.0",
+  "description": "This is a ecommerce full MERN stack web application.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ecommerce",
+    "paras",
+    "buyonline"
+  ],
+  "author": "Paras Chand",
+  "license": "ISC"
+}
