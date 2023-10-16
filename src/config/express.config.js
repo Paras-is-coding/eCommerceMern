@@ -4,6 +4,10 @@ const router = require('../router/index.js');
 //create express app
 const app = express();
 
+// parsing different data_formats
+app.use(express.json())
+app.use(express.urlencoded({extended:false}))
+
 // mount router to app for using router level middlewares
 app.use('/api/v1/',router)
 

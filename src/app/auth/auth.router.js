@@ -2,7 +2,8 @@ const router = require('express').Router();
 
 // Auth and Authorization routes start 
 router.post('/register',(req,res,next)=>{
-    res.send("Hello from register auth route")
+    const {password,...rest} = req.body;
+    res.json(rest);
 })
 
 router.get('/verify-token/:token', (req,res,next)=>{})

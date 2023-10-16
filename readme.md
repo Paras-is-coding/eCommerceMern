@@ -72,3 +72,15 @@
 - written at the end of express.config.js , has one (error ,...) param in middleware
 - next(with param) will call this middleware
 - used to handle exceptions like _ validation failure, db query failure, fileupload exception,etc
+
+
+# Receiving data on server 
+- For now we'll use postman to send data 
+- data received in req.body & url: req.params.id / req.query.q 
+- we need to parse different data_format of data on req.body
+- Middlewares _ used before sending data to route 
+    app.use(express.json())
+    app.use(express.urlencoded({extended:true/false}))
+    - for form_data we need a third party plugin 'multer'
+
+
