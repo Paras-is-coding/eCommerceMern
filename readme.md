@@ -183,3 +183,14 @@ user-->email
 - set verify-token:token route 
 - req.params.token in verifyToken middleware and verify using DB query
 - if(valid){res} else{next({set error})
+
+
+# set-password 
+- First validate password (add schema in auth.validator.js)
+  - schema validates psw and confirmpsw also compares if they are equal using (.refine(truecond,falsecond)) function
+  - export and use before setPassword controller
+
+- Now after validation we'll store psw in db with the help of token(select user),
+   additional    fields: status:"active" & token=null
+  - for that we need to hash psw, we'll do using 'bcryptjs'
+    - npm i bcryptjs > import bcrypt > encPass = bcrypt.hashSync(psw,salt)

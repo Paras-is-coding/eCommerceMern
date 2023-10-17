@@ -1,6 +1,7 @@
 const {generateRandomString} = require("../../config/helper.js");
 const authSvc = require('./auth.services.js');
 const mailSvc = require("../../services/mail.service.js");
+const bcrypt = require('bcryptjs')
 
 class authController {
     register = async (req,res,next) =>{
@@ -52,7 +53,26 @@ class authController {
         }
     }
 
-    setPassword = (req,res,next)=>{}
+    setPassword = async (req,res,next)=>{
+        try{
+            let data = req.body;
+            console.log(data);
+
+            let token = req.params.token
+            //password,confirmPassword
+            //TODO : DB Update
+            //status : active 
+            //token : null 
+            const encPass = bcrypt.hashSync(data.password,10);
+            console.log(encPass)
+            res.json({result:data,encPass})
+
+        }catch(except){
+            next(except)
+        }
+    }
+
+
 
     login = (req,res,next)=>{}
 }
