@@ -1,18 +1,32 @@
+const {generateRandomString} = require("../../config/helper.js");
+const authSvc = require('./auth.services.js');
+const mailSvc = require("../../services/mail.service.js");
+
 class authController {
-    register = (req,res,next) =>{
+    register = async (req,res,next) =>{
            try{
             const {password,...rest} = req.body;
+            const payload = rest;
             if(req.file){
-                rest.image = req.file.filename;
+                payload.image = req.file.filename;
             }
             if(req.files){
-                rest.image = req.files.map((file)=>{
+                payload.image = req.files.map((file)=>{
                     return file.filename;
                 })
             }
+
+            payload.status = "active";
+            payload.token = generateRandomString();
+
+            //TODO: dbase store 
+
+            const mailMsg = authSvc.registerEmailMessage(payload.name,payload.token);
+            const mailAck = await mailSvc.emailSend(payload.email,"Activate your account!",mailMsg);
             
-            res.json(rest);
+            res.json(payload);
             next();
+            
            }catch(except){
             next(except)
            }

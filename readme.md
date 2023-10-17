@@ -137,3 +137,40 @@
 - same as multer error handeling 
 - in error handling middleware check for if(error instanceof ZodError)
 - set code = 400, message = "Validation failure!" and result= msg(ie obj of error messages)
+
+
+# USER VERIFICATION 
+- Data + additional fields to dbase > email or OTP to client for verification
+
+- Using mailtrap.io(SMTP server provider)for sending mail
+    - SMTP server > Myinbox > showCredientials > integration
+
+- Generate and send token
+    - config/helpers.js _ function for random string(token) generation
+
+- npm i nodemailer > import nodemailer > nodemailer.createTranspoter({})
+- src/services/mail.service.js _ class MailService > constructor(){this.transporter}|function emailSend(to,sub,message)
+
+- src/auth/auth.services.js _ class AuthServices > function registerEmailMessage(token,name)
+
+- auth.controller.js > call functions
+    - let mailMsg = authSvc.registerEmailMessage(payload.name,payload.token);
+    - const mailAck = await mailSvc.emailSend(payload.email,"Activate your account",mailMsg)
+
+
+
+# .env setup
+- we place our private env variables here 
+- npm i dotenv 
+- On the file where we'll use vaiables >  import dotenv > dotenv.config() 
+- process.env.varabble
+
+# Flow
+Register ==> Url FE ==> Activation token ==> Email  , 
+FEURL ==> API(verify-token) ==> Response ACK   ,
+Set Password === Token, Password ===> Activate
+user-->email
+
+login API === username,password ==> login(jwt token)
+loggedin === jwt token ==> Verify ==> Access
+
