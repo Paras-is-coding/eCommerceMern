@@ -32,7 +32,25 @@ class authController {
            }
     }
 
-    verifyToken = (req,res,next)=>{}
+    verifyToken = (req,res,next)=>{
+        try{
+            let token = req.params.token;
+            //Todo DB query to validate token 
+            if(token){
+                res.json({
+                    result:{},
+                    message:"Valid token!",
+                    meta:null
+                })
+            }
+            else{
+                next({code:400,message:"Invalid of Expired token"})
+            }
+
+        }catch(except){
+            next(except)
+        }
+    }
 
     setPassword = (req,res,next)=>{}
 

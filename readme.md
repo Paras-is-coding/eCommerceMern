@@ -166,11 +166,20 @@
 - process.env.varabble
 
 # Flow
-Register ==> Url FE ==> Activation token ==> Email  , 
-FEURL ==> API(verify-token) ==> Response ACK   ,
-Set Password === Token, Password ===> Activate
+> Register ==> Url FE ==> Activation token ==> Email  , 
+> FEURL ==> API(verify-token) ==> Response ACK   ,
+> Set Password === Token, Password ===> Activate
 user-->email
 
-login API === username,password ==> login(jwt token)
-loggedin === jwt token ==> Verify ==> Access
+> login API === username,password ==> login(jwt token)
+> loggedin === jwt token ==> Verify ==> Access
 
+
+# verify-token and set-password 
+- registration is done and activation token is send to user 
+- Now we'll verify-token from the url send by user and send user acknowledgement
+
+# verify-token 
+- set verify-token:token route 
+- req.params.token in verifyToken middleware and verify using DB query
+- if(valid){res} else{next({set error})
