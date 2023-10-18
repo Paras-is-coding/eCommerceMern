@@ -3,6 +3,7 @@ const authCtrl = require('./auth.controller.js');
 const uploader = require('../../middlewares/uploader.middleware.js')
 const {regSchema, passwordSchema, loginSchema} = require('./auth.validator.js')
 const ValidateRequest = require('../../middlewares/validate-request.middleware.js')
+const checkLogin = require('../../middlewares/auth.middleware.js')
 
 
 // directory setup middleware for file upload distination(will use later in uploader midd.)
@@ -21,12 +22,13 @@ router.get('/verify-token/:token',authCtrl.verifyToken)
 router.post("/set-password/:token",ValidateRequest(passwordSchema),authCtrl.setPassword)
 
 router.post("/login",ValidateRequest(loginSchema),authCtrl.login)
-router.post("/refresh-token",(req,res,next)=>{},(req,res,next)=>{})
 
-router.get('/me', (req, res, next) => {},(req, res, next) => {})
-router.get("/refresh-token", (req, res, next) => {}, (req, res, next) => {})
+router.get('/me',checkLogin,authCtrl.getLoggedInUser)
+router.get('/admin',checkLogin,(req, res, next) => {})
+
+router.get("/refresh-token",checkLogin, (req, res, next) => {})
 router.get('/forget-password', (req, res, next) => {})
-router.post('/logout', (req, res, next) => {}, (req, res, next) => {})
+router.post('/logout',checkLogin, (req, res, next) => {})
 
 
 module.exports = router;

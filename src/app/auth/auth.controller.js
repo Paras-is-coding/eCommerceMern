@@ -113,6 +113,10 @@ class authController {
 
     }
 
+    getLoggedInUser = (req,res,next)=>{
+        res.json({authUser : req.authUser})
+    }
+
 
 }
 

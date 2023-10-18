@@ -215,3 +215,16 @@ user-->email
  there the token and refresh token are regenerated and sent again
 
 - Frontend store these tokens on their local storage & every API calls after this are send with this token
+
+
+
+# using jwt token
+- login includes verification & role based access control(RBAC)
+> verification
+    - '/me/' -> all users access , '/admin' -> only admin
+- token sent in:  header > authoriation/x-xsrf-token : Bearer <token>  OR in url query?token=
+- middlewares/auth.middleware.js > checkLogin(){//token verify }
+    - In checkLogin, firstly we receive the token then we verify using:
+    jwt.verify(token,process.env.JWT_SECRETKEY) -> is sync func returns data OR throw exception
+    IF used jwt.decode(token) => we can still see data
+    - Finally we check if user exist(using payload of data) then call next() otherwise next(err of user not exist)
