@@ -4,6 +4,7 @@ const uploader = require('../../middlewares/uploader.middleware.js')
 const {regSchema, passwordSchema, loginSchema} = require('./auth.validator.js')
 const ValidateRequest = require('../../middlewares/validate-request.middleware.js')
 const checkLogin = require('../../middlewares/auth.middleware.js')
+const CheckPermission = require('../../middlewares/rbac.middleware.js')
 
 
 // directory setup middleware for file upload distination(will use later in uploader midd.)
@@ -24,7 +25,12 @@ router.post("/set-password/:token",ValidateRequest(passwordSchema),authCtrl.setP
 router.post("/login",ValidateRequest(loginSchema),authCtrl.login)
 
 router.get('/me',checkLogin,authCtrl.getLoggedInUser)
-router.get('/admin',checkLogin,(req, res, next) => {})
+router.get('/admin',checkLogin,CheckPermission("admin"),(req, res, next) => {
+    res.send("I'm admin role")
+})
+router.get('/admin-seller',checkLogin,CheckPermission(["admin","seller"]),(req, res, next) => {
+    res.send("I'm admin/seller role")
+})
 
 router.get("/refresh-token",checkLogin, (req, res, next) => {})
 router.get('/forget-password', (req, res, next) => {})

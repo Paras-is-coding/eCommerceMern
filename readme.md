@@ -228,3 +228,9 @@ user-->email
     jwt.verify(token,process.env.JWT_SECRETKEY) -> is sync func returns data OR throw exception
     IF used jwt.decode(token) => we can still see data
     - Finally we check if user exist(using payload of data) then call next() otherwise next(err of user not exist)
+
+> role based access control(RBAC)
+- If we're loggedIn in admin route get admin features and so on 
+- middlewares/rbac.middleware.js > CheckPermission(role){return middleware}
+    - add this middleware after checkLogin in route 
+- CheckPermission(role){see if req.authUser is set and role matches otherwise set error accordingly}
