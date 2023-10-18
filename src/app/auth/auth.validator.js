@@ -1,4 +1,4 @@
-const {z} = require('zod')
+const {z} = require('zod');
 
 const regSchema = z.object({
     username : z.string().min(2).max(50),
@@ -15,4 +15,10 @@ const passwordSchema = z.object({
     path: ["confirmPassword"]
 })
 
-module.exports = {regSchema,passwordSchema}
+const loginSchema = z.object({
+    email : z.string().email().min(1),
+    password : z.string().min(8)
+})
+
+
+module.exports = {regSchema,passwordSchema,loginSchema}

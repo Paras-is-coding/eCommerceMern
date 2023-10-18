@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const authCtrl = require('./auth.controller.js');
 const uploader = require('../../middlewares/uploader.middleware.js')
-const {regSchema, passwordSchema} = require('./auth.validator.js')
+const {regSchema, passwordSchema, loginSchema} = require('./auth.validator.js')
 const ValidateRequest = require('../../middlewares/validate-request.middleware.js')
 
 
@@ -19,7 +19,10 @@ router.post('/register',dirSetup,uploader.single('image'),ValidateRequest(regSch
 
 router.get('/verify-token/:token',authCtrl.verifyToken)
 router.post("/set-password/:token",ValidateRequest(passwordSchema),authCtrl.setPassword)
-router.post("/login",authCtrl.login)
+
+router.post("/login",ValidateRequest(loginSchema),authCtrl.login)
+router.post("/refresh-token",(req,res,next)=>{},(req,res,next)=>{})
+
 router.get('/me', (req, res, next) => {},(req, res, next) => {})
 router.get("/refresh-token", (req, res, next) => {}, (req, res, next) => {})
 router.get('/forget-password', (req, res, next) => {})

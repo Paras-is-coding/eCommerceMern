@@ -2,6 +2,9 @@ const {generateRandomString} = require("../../config/helper.js");
 const authSvc = require('./auth.services.js');
 const mailSvc = require("../../services/mail.service.js");
 const bcrypt = require('bcryptjs')
+const jwt = require("jsonwebtoken")
+const dotenv = require('dotenv')
+dotenv.config();
 
 class authController {
     register = async (req,res,next) =>{
@@ -74,7 +77,43 @@ class authController {
 
 
 
-    login = (req,res,next)=>{}
+    login = (req,res,next)=>{
+      try{
+        let payload = req.body;
+          // TODO : fetch user from db using email if exist
+        // db data comes like this : test for now
+        let userDetail = {
+            _id:"dsdfdsf",
+            name:"Paras Chand",
+            email:"paras@gmail.com",
+            role:"admin",
+            status:"active",
+            token:null,
+            password:"$2a$10$uIRiOdwQ1WzcredUzy.WPegxpY70FfgbqklUNZ0tQ5xwJuV7SEnu."
+        }
+        
+        if(bcrypt.compareSync(payload.password,userDetail.password )){
+            // user is logged in 
+            // Create JWT 
+            let token = jwt.sign({userId : userDetail._id},process.env.JWT_SECRETKEY,{expiresIn:"2h"});
+            let refreshToken = jwt.sign({userId : userDetail._id},process.env.JWT_SECRETKEY,{expiresIn:"1d"}) 
+
+            res.json({
+                token:token,
+                refreshToken:refreshToken,
+                type:"Bearer" // just to identify token
+            })
+        } else{
+            next({code:400,message:"Credential doesnot match!"});
+        }
+
+      }catch(except){
+        next(except)
+      }
+
+    }
+
+
 }
 
 const authCtrl = new authController();
