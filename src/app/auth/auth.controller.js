@@ -4,8 +4,9 @@ const mailSvc = require("../../services/mail.service.js");
 const bcrypt = require('bcryptjs')
 const jwt = require("jsonwebtoken")
 const dotenv = require('dotenv');
-const { MongoClient } = require("mongodb");
+// const { MongoClient } = require("mongodb");
 dotenv.config();
+// const {dbSvc} = require('../../services/db.service.js');
 
 class authController {
     register = async (req,res,next) =>{
@@ -25,10 +26,8 @@ class authController {
             payload.token = generateRandomString();
 
             //TODO: dbase store 
-            const client = await MongoClient.connect("mongodb://127.0.0.1:27017/");
-            const db = client.db('ecommercemern');
-
-            const response = await db.collection('users').insertOne(payload);
+            // const response = await dbSvc.db.collection('users').insertOne(payload);
+            const response = await authSvc.registerUser(payload);
 
             const mailMsg = authSvc.registerEmailMessage(payload.name,payload.token);
             await mailSvc.emailSend(payload.email,"Activate your account!",mailMsg);
@@ -48,11 +47,10 @@ class authController {
     verifyToken = async (req,res,next)=>{
         try{
             let token = req.params.token;
-            
+
             //Todo DB query to validate token
-            const client = await MongoClient.connect("mongodb://127.0.0.1:27017/");
-            const db = client.db('ecommercemern');
-            let userdetails = await db.collection('users').findOne({token:token})
+            // let userdetails = await dbSvc.db.collection('users').findOne({token:token})
+            const userdetails = await authSvc.getUserByFilter({token:token});
 
             if(userdetails){
                 res.json({
@@ -79,10 +77,28 @@ class authController {
             //password,confirmPassword
             //TODO : DB Update
             //status : active 
-            //token : null 
-            const encPass = bcrypt.hashSync(data.password,10);
-            console.log(encPass)
-            res.json({result:data,encPass})
+            //token : null
+            const userdetails = await authSvc.getUserByFilter({token:token});
+
+            if(userdetails){
+                let encPass = bcrypt.hashSync(data.password,10);
+                const updateData = {
+                    password:encPass,
+                    token:null,
+                    status:"active",
+                }
+
+                let updateResponse = await authSvc.updateUser({_id:userdetails._id},updateData)
+
+
+            res.json({
+                result:updateResponse,
+                message:"User Activated Successfully!",
+                meta:null
+            })
+            }else{
+                next({code:400,message:"Invalid token/expired token/broken",result:data})
+            }
 
         }catch(except){
             next(except)

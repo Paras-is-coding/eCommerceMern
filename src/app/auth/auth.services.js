@@ -1,6 +1,8 @@
+const { DatabaseService } = require("../../services/db.service");
+
 require("dotenv").config()
 
-class AuthService {
+class AuthService extends DatabaseService{
     registerEmailMessage(name, token) {
         // TODO: DB table msg
         return `
@@ -20,6 +22,37 @@ class AuthService {
                     </p>
                 `
     }
+
+    registerUser = async(payload)=>{
+        try {
+            let response = await this.db.collection('users').insertOne(payload);
+            return response;
+        } catch (except) {
+            throw except;            
+        }
+    }
+
+    getUserByFilter = async (filter)=>{
+        try {
+            let userdetails = await this.db.collection('users').findOne(filter);
+            return userdetails;
+        } catch (except) {
+            throw except;
+            
+        }
+    }
+
+    updateUser = async (filter,data)=>{
+        try {
+            const response = await this.db.collection('users').updateOne(filter,{
+                $set:data
+            })
+            return response;
+        } catch (except) {
+            throw except;            
+        }
+    }
+
 }
 
 const authSvc = new AuthService()

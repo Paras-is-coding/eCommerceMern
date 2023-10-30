@@ -337,3 +337,18 @@ user-->email
      - let userdetail = await db.collection('users').findOne({token:token})
      // send userdetail as response
 
+
+- Since we're repeating conn. code we'll organize it in seperate file
+    - services/db.service.js/ class DatabaseService{}   _ class to connect to db 
+    
+    - moving db call from controller to services
+        - extend DatabaseService class to make _ eg AuthService in auth.services.js
+        - make functions for db call  _ eg registerUser
+        - call them from controller _ eg authSvc.registerUser(payload)   
+
+- similarly other functionalities db operations can be done _ eg setpassword / UPDATE
+    - fetch userdetails using token, if exist add password field 
+
+
+* Note that we are using Core Driver mongodb however we'll use mongoose and learn to create models    
+
