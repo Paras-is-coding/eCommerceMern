@@ -31,6 +31,9 @@ app.use((error,req,res,next)=>{
             code = 400;
             message = error.message;
         }
+        message = `Multer error ${error.message}`
+        code = 400;
+        
         // similarly other multer errors are handled here
     }
 
@@ -46,7 +49,7 @@ app.use((error,req,res,next)=>{
         message = "Validation failure!";
         result = msg;
     }
-
+console.log(error)
     res.status(code).json({
         result:result,
         message:message,

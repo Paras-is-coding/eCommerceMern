@@ -291,3 +291,49 @@ user-->email
 
 # aggrigate pipelines
 - used as joins 
+
+
+
+
+
+## Using mongodb
+
+- So far we learned to use from mongoshell and compass
+- Now we actually will use through application
+
+# Using mongodb with our app
+
+- Two ways of using mongodb     
+    - Core Driver/Raw defined -> Not defining structure of dbase / writing everything from codebase 
+        - 'mongodb' package 
+
+    - ORM/ODM /Structured     -> We define models/ structure 
+        - 'mongoose' package
+- We'll just learn CRUD using Core Driver, We'll learn mongoose in deep
+
+
+
+# using mongodb package
+- npm i mongodb
+- In the file we need to store data to dbase
+    - import {MongoClient} from 'mongodb'
+
+    * 1 server connect
+    - const client = await MongoClient.connect(<DATABASE_URL>,{<options>}) 
+        - for localhost: "mongodb://127.0.0.1:27017"
+
+    * 2 db connect
+    - const db = client.db(<dbname>)
+
+    * 3 store/insertion query / returns ack and _id
+    - res = await  db.collection(<tablename>).insertOne(<data>)
+    // send res as response
+
+- user reg. is done, now we are using mailtrap for verification there we've sent token,
+     for now we'll use that token to call 'verify-token' API route.
+     - Here also repeat step 1 and 2 
+
+     * 3 fetch/read from dbase / returns userDetails if found/valid token
+     - let userdetail = await db.collection('users').findOne({token:token})
+     // send userdetail as response
+

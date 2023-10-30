@@ -3,7 +3,8 @@ const authSvc = require('./auth.services.js');
 const mailSvc = require("../../services/mail.service.js");
 const bcrypt = require('bcryptjs')
 const jwt = require("jsonwebtoken")
-const dotenv = require('dotenv')
+const dotenv = require('dotenv');
+const { MongoClient } = require("mongodb");
 dotenv.config();
 
 class authController {
@@ -24,11 +25,19 @@ class authController {
             payload.token = generateRandomString();
 
             //TODO: dbase store 
+            const client = await MongoClient.connect("mongodb://127.0.0.1:27017/");
+            const db = client.db('ecommercemern');
+
+            const response = await db.collection('users').insertOne(payload);
 
             const mailMsg = authSvc.registerEmailMessage(payload.name,payload.token);
-            const mailAck = await mailSvc.emailSend(payload.email,"Activate your account!",mailMsg);
+            await mailSvc.emailSend(payload.email,"Activate your account!",mailMsg);
             
-            res.json(payload);
+            res.json({
+                result:response,
+                message:"User registered successfully!",
+                meta:null
+            });
             next();
             
            }catch(except){
@@ -36,19 +45,24 @@ class authController {
            }
     }
 
-    verifyToken = (req,res,next)=>{
+    verifyToken = async (req,res,next)=>{
         try{
             let token = req.params.token;
-            //Todo DB query to validate token 
-            if(token){
+            
+            //Todo DB query to validate token
+            const client = await MongoClient.connect("mongodb://127.0.0.1:27017/");
+            const db = client.db('ecommercemern');
+            let userdetails = await db.collection('users').findOne({token:token})
+
+            if(userdetails){
                 res.json({
-                    result:{},
+                    result:userdetails,
                     message:"Valid token!",
                     meta:null
                 })
             }
             else{
-                next({code:400,message:"Invalid of Expired token"})
+                next({code:400,message:"Invalid or Expired token"})
             }
 
         }catch(except){
