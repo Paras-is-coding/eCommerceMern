@@ -371,3 +371,14 @@ user-->email
  - npm i mongoose
 - connect db after creating express app in express.config.js
  - config/db.config.js
+
+ * creating Model _ to define table structure|schema
+- Here we are creating User model
+ - user/user.model.js 
+   - create UserSchema, then UserModel and export UserModel
+   - now we'll use UserModel to do operation in 'users' table
+   - TODO : modify functions of auth.services.js using UserModel
+
+* handeling mongoose 11000 error
+- That's unique error i/e not unique value like already used email
+- we have to specially handle this code in error handeling middleware

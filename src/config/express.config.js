@@ -52,7 +52,16 @@ app.use((error,req,res,next)=>{
         message = "Validation failure!";
         result = msg;
     }
-console.log(error)
+
+    // Handle 11000 error of mongoose 
+    // reusing email where email field doesnot allow duplicate 
+    if(error.code === 11000){
+        code = 400;
+        let uniqueKeys = Object.keys(error.keyPattern)
+        message = uniqueKeys.map((key)=> key + "should be unique");
+        result = req.body
+    }
+
     res.status(code).json({
         result:result,
         message:message,

@@ -1,3 +1,4 @@
+const UserModel = require('../user/user.model.js');
 require("dotenv").config()
 
 class AuthService{
@@ -23,7 +24,9 @@ class AuthService{
 
     registerUser = async(payload)=>{
         try {
-            // let response = await this.db.collection('users').insertOne(payload);
+             // {key:value} in payload will map to UserModel {key:value} with same key
+             let user = new UserModel(payload)
+             let response = await user.save();
             return response;
         } catch (except) {
             throw except;            
@@ -32,7 +35,7 @@ class AuthService{
 
     getUserByFilter = async (filter)=>{
         try {
-            // let userdetails = await this.db.collection('users').findOne(filter);
+            let userdetails = await UserModel.findOne(filter)
             return userdetails;
         } catch (except) {
             throw except;
@@ -42,9 +45,9 @@ class AuthService{
 
     updateUser = async (filter,data)=>{
         try {
-            // const response = await this.db.collection('users').updateOne(filter,{
-            //     $set:data
-            // })
+            let response = await UserModel.updateOne(filter,{
+                $set:data
+            })
             return response;
         } catch (except) {
             throw except;            
