@@ -1,5 +1,3 @@
-const { DatabaseService } = require("../../services/db.service");
-
 require("dotenv").config()
 
 class AuthService{

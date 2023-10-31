@@ -6,6 +6,9 @@ const {ZodError} = require('zod')
 //create express app
 const app = express();
 
+// establish DB connection
+require('./db.config.js');
+
 // parsing different data_formats
 app.use(express.json())
 app.use(express.urlencoded({extended:false}))

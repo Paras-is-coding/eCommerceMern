@@ -358,3 +358,16 @@ user-->email
     - npm uninstall mongodb
     - delete 'services/db.service.js' file
     - modify auth/auth.services.js _ using Model we'll create
+
+# mongoose
+ - working with ODM of mongodb > mongoose package
+ - We can structure table in DB, keys and their data structure
+
+- Every table is pointed by Model (eg users table ,User model) 
+- Each row is instance of Model class
+
+* setup
+- install mongoose
+ - npm i mongoose
+- connect db after creating express app in express.config.js
+ - config/db.config.js
