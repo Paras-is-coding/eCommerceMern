@@ -352,3 +352,9 @@ user-->email
 
 * Note that we are using Core Driver mongodb however we'll use mongoose and learn to create models    
 
+
+# removing mongodb (Core Driver) setup from app
+ - we'll not work with Core Driver mongodb
+    - npm uninstall mongodb
+    - delete 'services/db.service.js' file
+    - modify auth/auth.services.js _ using Model we'll create
