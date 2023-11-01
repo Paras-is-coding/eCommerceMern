@@ -397,3 +397,23 @@ user-->email
 
 - Now where we need modified payload we do :
     - let payload = (new AuthRequest(req)).transformRequestData();
+
+
+
+# DB operations added in login route
+- check incomming credentials(email and password) in DB
+    - fetch user from DB _ getUserByFilter(filter) 
+    - if userDetail exist and if is activated  _ 
+        - then compare pass and return jwt
+        - else handle error accordingly
+
+- Hey now rememeber jwt and ref are stored by JWT itself.
+- So even after logging out if client've saved token and send, JWT will verify it until expire date. To prevent,
+
+- We'll store token and userId in DB, if we want to apply custom logout rules. For that,
+    - We create a seperate collection/table
+    - auth/personal-access-token.js 
+        - Define PATSchema, create PATModel, export PATModel
+    - In login route set patData{} and store in that table in DB 
+        - make storePAT func. in services file for that 
+        - call storePAT(patData)

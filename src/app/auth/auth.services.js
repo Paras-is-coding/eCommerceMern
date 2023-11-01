@@ -1,4 +1,5 @@
 const UserModel = require('../user/user.model.js');
+const PATModel = require('./personal-access-token.js');
 require("dotenv").config()
 
 class AuthService{
@@ -43,6 +44,16 @@ class AuthService{
         }
     }
 
+    storePAT = async (data) =>{
+        try {
+            let patObj = new PATModel(data);
+            return await patObj.save();
+        } catch (error) {
+            throw error           
+        }
+    }
+
+    
     updateUser = async (filter,data)=>{
         try {
             let response = await UserModel.updateOne(filter,{
