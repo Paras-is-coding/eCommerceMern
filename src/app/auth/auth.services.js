@@ -53,7 +53,19 @@ class AuthService{
         }
     }
 
-    
+    getPatByToken = async (token) =>{
+        try {
+            let patData = await PATModel.findOne({
+                token:token
+            })
+            return patData;
+        } catch (error) {
+            throw error;
+            
+        }
+    }
+
+
     updateUser = async (filter,data)=>{
         try {
             let response = await UserModel.updateOne(filter,{

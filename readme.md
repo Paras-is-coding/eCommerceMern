@@ -417,3 +417,11 @@ user-->email
     - In login route set patData{} and store in that table in DB 
         - make storePAT func. in services file for that 
         - call storePAT(patData)
+
+
+
+* modifying Verification process
+- we're verifying user in auth.middleware.js 
+- there we check IF token we get is there in DB and then send for jwt.verify()
+    - getPatByToken(token) _ we make function in auth.services.js, it returns userDetail if exist
+    - If we get userDetail mean verified 
