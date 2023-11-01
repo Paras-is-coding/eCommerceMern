@@ -4,6 +4,7 @@ const mailSvc = require("../../services/mail.service.js");
 const bcrypt = require('bcryptjs')
 const jwt = require("jsonwebtoken")
 const dotenv = require('dotenv');
+const AuthRequest = require("./auth.request.js");
 // const { MongoClient } = require("mongodb");
 dotenv.config();
 // const {dbSvc} = require('../../services/db.service.js');
@@ -11,19 +12,9 @@ dotenv.config();
 class authController {
     register = async (req,res,next) =>{
            try{
-            const {password,...rest} = req.body;
-            const payload = rest;
-            if(req.file){
-                payload.image = req.file.filename;
-            }
-            if(req.files){
-                payload.image = req.files.map((file)=>{
-                    return file.filename;
-                })
-            }
-
-            payload.status = "active";
-            payload.token = generateRandomString();
+           
+            // payload modification moved to auth.request.js transformer
+            let payload = (new AuthRequest(req)).transformRequestData();
 
             //TODO: dbase store 
             // const response = await dbSvc.db.collection('users').insertOne(payload);

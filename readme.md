@@ -382,3 +382,18 @@ user-->email
 * handeling mongoose 11000 error
 - That's unique error i/e not unique value like already used email
 - we have to specially handle this code in error handeling middleware
+
+
+# seperate transformer logic from controller
+* moving the input data mapping(on req data) to different file
+    - Say we may need register req. mapping/trans logic in another route, like 'user-controller'
+
+    - So crete file, say auth.request.js 
+        - Has a class say AuthRequest, which has
+        - vars to copy data from req
+        - constructor takes (req) and maps vars to  diff. req.<data>
+        - and func(say transformRequestData) that modify and return payload
+    - File returns class 
+
+- Now where we need modified payload we do :
+    - let payload = (new AuthRequest(req)).transformRequestData();
