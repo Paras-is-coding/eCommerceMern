@@ -425,3 +425,26 @@ user-->email
 - there we check IF token we get is there in DB and then send for jwt.verify()
     - getPatByToken(token) _ we make function in auth.services.js, it returns userDetail if exist
     - If we get userDetail mean verified 
+
+
+
+# handeling logout route
+- When user is logged out we delete jwt token of the user in pats table of DB
+
+- route.post('/logout',CheckLogin, authCtrl.logoutUser)
+
+    - WE'LL work on logoutUser
+    - get user = req.authUser(appended in CheckLogin)  || getTokenFromHeader
+    - loggedout = await authSvc.deletePatData(user._id)
+    - now delete from 'pats' table that user
+
+    * we have multiple delete functions used with Model to delete in different ways
+    
+* NOTE that deleting user with user._id will delete from all devices
+   WHEREAS using token from current only
+    - to get token we've to write code as we've written in CheckLogin 
+    - FOR EASE : move that code in config/helpers.js/ getTokenFromHeader(req)  
+    ...tobecontinued
+
+
+    

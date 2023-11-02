@@ -1,4 +1,4 @@
-const { generateRandomString } = require("../../config/helper.js");
+const { generateRandomString, getTokenFromHeader } = require("../../config/helper.js");
 const authSvc = require("./auth.services.js");
 const mailSvc = require("../../services/mail.service.js");
 const bcrypt = require("bcryptjs");
@@ -155,6 +155,23 @@ class authController {
   getLoggedInUser = (req, res, next) => {
     res.json({ authUser: req.authUser });
   };
+
+  logoutUser = async(req, res, next) => {
+    try {
+      let token = getTokenFromHeader(req); 
+      //TODO: complete logout
+      let loggedout = await authSvc.deletePatData(token);
+      res.json({
+        result:null,
+        message:"Logged out successfully!",
+        meta:null
+      })
+    } catch (error) {
+      next(error)      
+    }
+  };
+
+
 }
 
 const authCtrl = new authController();

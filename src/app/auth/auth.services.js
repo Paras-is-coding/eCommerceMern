@@ -65,6 +65,24 @@ class AuthService{
         }
     }
 
+    deletePatData = async (token)=>{
+        try {
+            // also have other functions to delete 
+            let deleted = await PATModel.findOneAndDelete({
+                token:token
+            })
+            if(deleted){
+                return deleted;
+            }
+            else{
+                throw{code:404,message:"Token does not exists"}
+            }
+        } catch (error) {
+            throw error;
+            
+        }
+    }
+
 
     updateUser = async (filter,data)=>{
         try {

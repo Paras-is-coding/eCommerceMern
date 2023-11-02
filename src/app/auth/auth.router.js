@@ -23,6 +23,8 @@ router.get('/verify-token/:token',authCtrl.verifyToken)
 router.post("/set-password/:token",ValidateRequest(passwordSchema),authCtrl.setPassword)
 
 router.post("/login",ValidateRequest(loginSchema),authCtrl.login)
+router.post('/logout',checkLogin, authCtrl.logoutUser)
+
 
 router.get('/me',checkLogin,authCtrl.getLoggedInUser)
 router.get('/admin',checkLogin,CheckPermission("admin"),(req, res, next) => {
@@ -34,7 +36,6 @@ router.get('/admin-seller',checkLogin,CheckPermission(["admin","seller"]),(req, 
 
 router.get("/refresh-token",checkLogin, (req, res, next) => {})
 router.get('/forget-password', (req, res, next) => {})
-router.post('/logout',checkLogin, (req, res, next) => {})
 
 
 module.exports = router;
