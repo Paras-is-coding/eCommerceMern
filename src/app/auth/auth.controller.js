@@ -152,6 +152,53 @@ class authController {
     }
   };
 
+  
+  forgetPassword = async(req, res, next) => {
+    try {
+ 
+    
+      // TODO : fetch user from db using email if exist
+      let userDetail = await authSvc.getUserByFilter({
+       email: req.body.email,
+     });
+     
+     if(userDetail){
+       // add token and its expiry to updateVals
+       let resetToken = generateRandomString()
+       let updateData = {
+         resetToken:resetToken,
+         resetExpiry:Date.now() + 86400000
+       } 
+ 
+       let response = await authSvc.updateUser({email:req.body.email},updateData);
+ 
+       let mailMsg = authSvc.registerEmailMessage("User", resetToken);
+       const mailAck = await mailSvc.emailSend(
+         req.body.email,
+         "Activate yur account!",
+         mailMsg
+       );
+       console.log(mailAck);
+ 
+       res.json({
+         result: null,
+         message: "Check your email to confirm your email!",
+         meta: null,
+       });
+ 
+     }else{
+       next({code:400,message:"User doesnot exist!"})
+     }
+ 
+    } catch (error) {
+     next(error)
+     
+    }
+ 
+   };
+ 
+ 
+
   getLoggedInUser = (req, res, next) => {
     res.json({ authUser: req.authUser });
   };

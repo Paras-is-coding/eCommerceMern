@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const authCtrl = require('./auth.controller.js');
 const uploader = require('../../middlewares/uploader.middleware.js')
-const {regSchema, passwordSchema, loginSchema} = require('./auth.validator.js')
+const {regSchema, passwordSchema, loginSchema, forgetPasswordSchema} = require('./auth.validator.js')
 const ValidateRequest = require('../../middlewares/validate-request.middleware.js')
 const checkLogin = require('../../middlewares/auth.middleware.js')
 const CheckPermission = require('../../middlewares/rbac.middleware.js')
@@ -35,7 +35,7 @@ router.get('/admin-seller',checkLogin,CheckPermission(["admin","seller"]),(req, 
 })
 
 router.get("/refresh-token",checkLogin, (req, res, next) => {})
-router.get('/forget-password', (req, res, next) => {})
+router.post('/forget-password',ValidateRequest(forgetPasswordSchema),authCtrl.forgetPassword)
 
 
 module.exports = router;

@@ -447,4 +447,14 @@ user-->email
     ...tobecontinued
 
 
+
+# handeling forget-password route
+- take registered Email from user
+    - Verify email, verify user exists, 
+    - send resetToken:random string, resetExpiry: 
+- send email to email address with the link
+    // http://localhose:5173/set-password/resetToken
+- API to set Password with reset token as params 
+    - Check token is valid or not with resetExpiry time not greater 
+    - update password
     
