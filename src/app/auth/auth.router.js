@@ -37,5 +37,7 @@ router.get('/admin-seller',checkLogin,CheckPermission(["admin","seller"]),(req, 
 router.get("/refresh-token",checkLogin, (req, res, next) => {})
 router.post('/forget-password',ValidateRequest(forgetPasswordSchema),authCtrl.forgetPassword)
 
+//{password:"",confirmPassword:""}resetToken
+router.post('/reset-password/:resetToken',authCtrl.resetPassword)
 
 module.exports = router;

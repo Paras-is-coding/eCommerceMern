@@ -23,6 +23,27 @@ class AuthService{
                 `
     }
 
+    forgotPasswordMessage(name,token){
+        //TODO:Db table msg
+        return`
+        <b>Dear ${name}</b><br/>
+        <p>Click the link below to reset password.</p>
+        <a href="${process.env.FRONTEND_URL}/set-password/${token}">
+        ${process.env.FRONTEND_URL}/set-password/${token}
+        </a><br/>
+        <p>
+            <b>Regards</b>
+        </p>
+        <p>
+            <b>System Admin</b>
+        </p>
+        <p>
+            <em><small>Please do not reply to this email</small></em>
+        </p>`
+    }
+
+    
+
     registerUser = async(payload)=>{
         try {
              // {key:value} in payload will map to UserModel {key:value} with same key

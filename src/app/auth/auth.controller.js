@@ -122,11 +122,11 @@ class authController {
               { expiresIn: "1d" }
             );
 
-             // TODO : Store loggedin token in seperate DB table
-             let patData = {
-                userId:userDetail._id,
-                token:token,
-                refreshToken:refreshToken
+            // TODO : Store loggedin token in seperate DB table
+            let patData = {
+              userId: userDetail._id,
+              token: token,
+              refreshToken: refreshToken
             }
             await authSvc.storePAT(patData);
 
@@ -152,69 +152,130 @@ class authController {
     }
   };
 
-  
-  forgetPassword = async(req, res, next) => {
+
+
+  forgetPassword = async (req, res, next) => {
     try {
- 
-    
-      // TODO : fetch user from db using email if exist
+
+      // Fetch userDetails using email from DB
       let userDetail = await authSvc.getUserByFilter({
-       email: req.body.email,
-     });
-     
-     if(userDetail){
-       // add token and its expiry to updateVals
-       let resetToken = generateRandomString()
-       let updateData = {
-         resetToken:resetToken,
-         resetExpiry:Date.now() + 86400000
-       } 
- 
-       let response = await authSvc.updateUser({email:req.body.email},updateData);
- 
-       let mailMsg = authSvc.registerEmailMessage("User", resetToken);
-       const mailAck = await mailSvc.emailSend(
-         req.body.email,
-         "Activate yur account!",
-         mailMsg
-       );
-       console.log(mailAck);
- 
-       res.json({
-         result: null,
-         message: "Check your email to confirm your email!",
-         meta: null,
-       });
- 
-     }else{
-       next({code:400,message:"User doesnot exist!"})
-     }
- 
+        email: req.body.email,
+      });
+
+      if (userDetail.status === 'active') {
+
+        // resetToken and resetExpiry to userDetails
+        let resetToken = generateRandomString();
+        let resetExpiry = Date.now() + 86400000;
+        let updateData = {
+          resetToken,
+          resetExpiry
+        }
+        let response = await authSvc.updateUser({ email: req.body.email }, updateData);
+
+        // Send resetToken to mail we received
+        let mailMsg = authSvc.forgotPasswordMessage("User", resetToken);
+        const mailAck = await mailSvc.emailSend(
+          req.body.email,
+          "Activate your account!",
+          mailMsg
+        );
+        console.log(mailAck);
+
+        // response 
+        res.json({
+          result: null,
+          message: "Check your email to confirm your email!",
+          meta: null,
+        });
+
+      } else {
+        next({ code: 400, message: "User is not activated!" })
+      }
+
     } catch (error) {
-     next(error)
-     
+      next(error)
+
     }
- 
-   };
- 
- 
+
+  };
+
+
+
+
+
+  resetPassword = async (req, res, next) => {
+    try {
+
+
+      let resetToken = req.params.resetToken;
+      let password = req.body.password;
+
+      // fetch user using resetToken DB, check exists & expired
+      let userDetails = await authSvc.getUserByFilter({ resetToken })
+
+
+      if (!userDetails) {
+        throw ({ code: 400, message: "Invalid token!" })
+      } else {
+        // DB resetExpiry, string format -> 2023-10-13T09:00:00:000(Z if UTC is set)
+        let date = userDetails.resetExpiry;
+        // so extract timestamp = new Date(userDetails.resetEspiry).getTime(); 
+        let timestamp = new Date(date).getTime();
+        // todaysTime = Date.now();
+        let todaysTime = Date.now();
+
+        if (todaysTime > timestamp) {
+          throw { code: 400, message: "Token Expired" }
+        } else {
+          const updateData = {
+            password: bcrypt.hashSync(password, 10),
+            resetToken: null,
+            resetExpiry: null
+          }
+
+          let response = await authSvc.updateUser({
+            resetToken
+          }, updateData);
+
+          // success response send
+          res.json({
+            result: null,
+            message: "Password reset successfully. Login to continue!",
+            meta: null
+          });
+
+        }
+      }
+
+
+    } catch (error) {
+      next(error)
+
+    }
+
+  }
+
+
+
+
 
   getLoggedInUser = (req, res, next) => {
     res.json({ authUser: req.authUser });
   };
 
-  logoutUser = async(req, res, next) => {
+  logoutUser = async (req, res, next) => {
     try {
-      let token = getTokenFromHeader(req); 
+      let token = getTokenFromHeader(req);
       //TODO: complete logout
       let loggedout = await authSvc.deletePatData(token);
       res.json({
-        result:null,
-        message:"Logged out successfully!",
-        meta:null
+        result: null,
+        message: "Logged out successfully!",
+        meta: null
       })
     } catch (error) {
-      next(error)      
+      next(error)
     }
   };
 
