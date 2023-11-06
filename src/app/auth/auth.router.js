@@ -34,7 +34,10 @@ router.get('/admin-seller',checkLogin,CheckPermission(["admin","seller"]),(req, 
     res.send("I'm admin/seller role")
 })
 
-router.get("/refresh-token",checkLogin, (req, res, next) => {})
+
+router.post("/refresh-token",checkLogin, authCtrl.refreshToken)
+
+
 router.post('/forget-password',ValidateRequest(forgetPasswordSchema),authCtrl.forgetPassword)
 
 //{password:"",confirmPassword:""}resetToken

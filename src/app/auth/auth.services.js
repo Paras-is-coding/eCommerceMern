@@ -77,7 +77,10 @@ class AuthService{
     getPatByToken = async (token) =>{
         try {
             let patData = await PATModel.findOne({
-                token:token
+                $or: [
+                    { token: token },
+                    { refreshToken: token }
+                ]
             })
             return patData;
         } catch (error) {
@@ -85,6 +88,20 @@ class AuthService{
             
         }
     }
+
+
+    getPatById = async (id) =>{
+        try {
+            let patData = await PATModel.findOne({
+                userId:id
+            });
+            return patData;
+        } catch (error) {
+            throw error;
+            
+        }
+    }
+
 
     deletePatData = async (token)=>{
         try {

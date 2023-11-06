@@ -486,3 +486,11 @@ router.post('reset-password/:resetToken',ValidateRequest(passwordSchema),authCtr
           - success response send  
 
     
+
+
+# refresh-token API route
+- we get token i.e refreshToken 
+- send it to CheckLogin where it,
+     gets token > gets patsData by token (modified to get if matches with token or refreshToken) > jwt verify > gets and attach authUser to req
+- then authCtrl.refreshToken midd. where it,
+    create newToken, get previous refreshToken by authUser._id(authSvc.getPatById created) and update pats data > return newToken and refreshToken

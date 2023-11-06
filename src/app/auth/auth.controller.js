@@ -258,6 +258,46 @@ class authController {
 
 
 
+  
+  refreshToken = async (req,res,next)=>{
+    try {
+      
+          // Create JWT
+          let newToken = jwt.sign(
+            { userId: req.authUser._id },
+            process.env.JWT_SECRETKEY,
+            { expiresIn: "2h" }
+          );
+
+          // update the user's token
+          await authSvc.updateUser({_id:req.authUser._id},{token:newToken})
+         
+
+          // Store newToken in database pats table
+          const patUser = await authSvc.getPatById(req.authUser._id);
+          let patData = {
+            userId: req.authUser._id,
+            token: newToken,
+            refreshToken: patUser.refreshToken
+            
+          }
+          await authSvc.storePAT(patData);
+
+
+          // respond with the new token and relevant info
+          res.json({
+            token: newToken,
+            refreshToken: patUser.refreshToken,
+            type: "Bearer", // just to identify token
+          }); 
+    } catch (error) {
+      next(error)
+      
+    } 
+  }
+
+
+
 
 
   getLoggedInUser = (req, res, next) => {
