@@ -522,3 +522,38 @@ router.post('reset-password/:resetToken',ValidateRequest(passwordSchema),authCtr
 - At this point of time auth module is completed and in most of projects it'll be same
 - After this we'll work on project specific things 
 -------------------------------------------------------------------------------------------------------------------------
+* making ER diagrams
+- Before coding we always should make ER diagrams after setting datastructure it's easier to implement 
+- https://app.diagrams.net/
+- https://dbdiagram.io/home
+
+
+* Firstly we try to complete non related modules like
+Banner
+    image
+    url
+    title
+    status [active,inactive]
+    createdBy 
+        -> It is used for dispute resolution later
+        -> We'll link foreign key here using mongoose
+Pages
+Blogs
+ these are not related with products, but maybe for marketing, SEO, etc
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+ # Starting Banner module
+ - app/banner/
+    - banner.model.js          * Firstly create BannerModel
+        
+    - banner.router.js         * Then create bannerRouter and mount to main router
+        - ALSO create dirSet middleware before creating routehandeler for fileupload
+        - In routehandeler we call various middleware and finally controller middleware 
+
+    - banner.controller.js     * We'll do DB operation here 
+
+    - banner.validator.js      * create bannerSchema for Validator
+
+    - banner.services.js       * Code like transform request comes here from controller
