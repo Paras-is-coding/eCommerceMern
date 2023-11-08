@@ -1,12 +1,22 @@
-const bannerSvc = require("./banner.service")
+const bannerSvc = require('./banner.services.js')
 
 class BannerController{
-    bannerCreate = (req,res,next)=>{
+    bannerCreate = async (req,res,next)=>{
         try {
             // DB operation  
 
             // collect all input data, move code to services
-            let data = bannerSvc.transformCreateRequest(req);
+            let payload = bannerSvc.transformCreateRequest(req);
+
+            
+            // create banner
+            let created = await bannerSvc.storeBanner(payload);
+
+            res.json({
+                result:created,
+                message:"Banner created successfully!",  
+                meta:null
+            })
             
         } catch (error) {
             next(error)

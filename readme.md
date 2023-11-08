@@ -557,3 +557,10 @@ Blogs
     - banner.validator.js      * create bannerSchema for Validator
 
     - banner.services.js       * Code like transform request comes here from controller
+
+
+
+# creating banner/ storing in DB
+- banner.services.js/storeBanner(payload), call from controller
+    - create banner object using BannerModel(payload) class, insert and return
+- send response from controller

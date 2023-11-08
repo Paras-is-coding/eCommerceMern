@@ -1,3 +1,5 @@
+const BannerModel = require("./banner.model")
+
 class BannerService{
 
     transformCreateRequest = (request) =>{
@@ -6,14 +8,25 @@ class BannerService{
         }
 
         if(!request.file){
-            throw{code:400,message:"Image is required",result:}
+            throw{code:400,message:"Image is required",result:data}
         }else{
-            data.image = req.file.filename
+            data.image = request.file.filename
         }
 
-        data.createdBy = req.authUser._id
+        data.createdBy = request.authUser._id
 
         return data;
+    }
+
+
+    storeBanner =async (req)=>{
+        try {
+            let banner = new BannerModel(req)
+            return await banner.save()
+        } catch (error) {
+            throw error
+            
+        }
     }
 
 }
