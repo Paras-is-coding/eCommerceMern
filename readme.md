@@ -576,3 +576,12 @@ Blogs
 * For searching with filter
     - send payload through query params eg_ ?search=one
     - make object filter for searching query with filter, pass it while fetching banners
+
+
+* pagination _ not returning all data instead in chunks
+- we need 3 things :
+    - page = 1(default frontend sends it)
+    - limit = 15(default)
+    - total = bannerSvc.countData(filter)
+    - skip
+- pass offset(skipvalue) and limit, use respective functions while fetching data

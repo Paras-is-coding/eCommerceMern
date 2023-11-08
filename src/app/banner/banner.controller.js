@@ -49,11 +49,24 @@ class BannerController{
                 ]
             }
 
-            let list = await bannerSvc.listAllData(filter);
+             // pagination 
+             let page = req.query['page'] || 1;
+             let limit = req.query['limit'] || 15;
+ 
+             let total = await bannerSvc.countData(filter);
+             // total=100, 7 page
+             // 1st =>0-14, 2nd=>15-29 ...
+             let skip = (page-1)*limit;
+
+            let list = await bannerSvc.listAllData(filter,{offset:skip,limit:limit});
             res.json({
                 result:list,
                 message:"Banner fetched successfully!",
-                meta:null
+                meta:{
+                    total:total,
+                    currentPage:page,
+                    limit:limit
+                }
             })
         } catch (error) {
             next(error)

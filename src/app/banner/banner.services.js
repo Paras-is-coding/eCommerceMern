@@ -29,18 +29,32 @@ class BannerService{
         }
     }
 
-    listAllData = async(filter={})=>{
+    listAllData = async(filter={},paging={offset:0,limit:15})=>{
         try {
             // fetch lists also populate createdBy data from users table
             let list = await BannerModel.find(filter)
-                            .populate('createdBy',["_id", "name","email","role","image"]);
+                            .populate('createdBy',["_id", "name","email","role","image"])
+                            .sort({_id:1})
+                            .skip(paging.offset)
+                            .limit(paging.limit)
 
             return list
         } catch (error) {
-            throw exception
+            throw error
             
         }
     }
+
+
+    countData = async (filter = {}) =>{
+        try {
+            let count = await BannerModel.count(filter);
+            return count;
+        } catch (error) {
+            throw error
+            
+        }
+    } 
 
 }
 
