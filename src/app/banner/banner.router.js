@@ -19,6 +19,11 @@ const dirSet = (req,res,next)=>{
 }
             
 bannerRouter.route('/')
+    .get(
+        checkLogin,
+        CheckPermission('admin'),
+        bannerCtrl.listAllBanners
+        )
     .post(
         checkLogin,
         CheckPermission('admin'),

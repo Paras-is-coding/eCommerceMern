@@ -23,6 +23,24 @@ class BannerController{
             
         }
     }
+
+
+    
+    listAllBanners = async (req,res,next)=>{
+        try {
+            //handle
+            // TODO :search,sort,paginate
+            let list = await bannerSvc.listAllData();
+            res.json({
+                result:list,
+                message:"Banner fetched successfully!",
+                meta:null
+            })
+        } catch (error) {
+            next(error)
+            
+        }
+    }
 }
 
 const bannerCtrl = new BannerController()

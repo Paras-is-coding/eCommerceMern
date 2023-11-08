@@ -564,3 +564,11 @@ Blogs
 - banner.services.js/storeBanner(payload), call from controller
     - create banner object using BannerModel(payload) class, insert and return
 - send response from controller
+
+
+
+# listing (Read)
+- .get(CheckLogin, CheckPermission('admin'),bannerCtrl.listAllBanners)
+- listAllBanners = (req,res,next)
+    - search, sort, paginate(sending data in chunks)  _if required OR send all data
+    - list = bannerSvc.listAllData()
