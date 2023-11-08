@@ -28,9 +28,28 @@ class BannerController{
     
     listAllBanners = async (req,res,next)=>{
         try {
-            //handle
-            // TODO :search,sort,paginate
-            let list = await bannerSvc.listAllData();
+            //handle search,sort,paginate
+            // search
+            let filter={}
+
+            if(req.query['search']){
+                filter = {
+                    // search keyword on title, url, status
+                    $or:[
+                        {title: new RegExp(req.query['search'],'i')},
+                        {url: new RegExp(req.query['search'],'i')},
+                        {status: new RegExp(req.query['search'],'i')}
+                    ]
+                }
+            }
+            filter = {
+                $and:[
+                    {createdBy:req.authUser._id},
+                    {...filter}
+                ]
+            }
+
+            let list = await bannerSvc.listAllData(filter);
             res.json({
                 result:list,
                 message:"Banner fetched successfully!",

@@ -572,3 +572,7 @@ Blogs
 - listAllBanners = (req,res,next)
     - search, sort, paginate(sending data in chunks)  _if required OR send all data
     - list = bannerSvc.listAllData()
+
+* For searching with filter
+    - send payload through query params eg_ ?search=one
+    - make object filter for searching query with filter, pass it while fetching banners

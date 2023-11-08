@@ -29,10 +29,10 @@ class BannerService{
         }
     }
 
-    listAllData = async()=>{
+    listAllData = async(filter={})=>{
         try {
             // fetch lists also populate createdBy data from users table
-            let list = await BannerModel.find()
+            let list = await BannerModel.find(filter)
                             .populate('createdBy',["_id", "name","email","role","image"]);
 
             return list
