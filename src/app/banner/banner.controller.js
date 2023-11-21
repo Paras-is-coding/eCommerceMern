@@ -73,6 +73,26 @@ class BannerController{
             
         }
     }
+
+
+    getDataById = async(req,res,next)=>{
+        try {
+            const {id} = req.params.id;
+            const data = await authSvc.getPatById({
+                id:id,
+                createdBy:req.authUser._id
+            });
+
+            res.json({
+                result:data,
+                message:"Banner fetched!",
+                meta:null
+            })
+
+        } catch (error) {
+            next(error)            
+        }
+    }
 }
 
 const bannerCtrl = new BannerController()

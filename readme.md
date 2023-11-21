@@ -585,3 +585,11 @@ Blogs
     - total = bannerSvc.countData(filter)
     - skip
 - pass offset(skipvalue) and limit, use respective functions while fetching data
+
+
+
+# edit banner
+
+* getBannerById 
+- to get banner details
+- .get route > checkLogin, CheckPermission("admin"), bannerCtrl.getDataById

@@ -33,5 +33,12 @@ bannerRouter.route('/')
         bannerCtrl.bannerCreate
         )
 
+bannerRouter.route("/:id")
+        .get(
+            checkLogin,
+            CheckPermission("admin"),
+            bannerCtrl.getDataById
+        )
+
 
 module.exports = bannerRouter

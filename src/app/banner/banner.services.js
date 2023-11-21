@@ -56,6 +56,22 @@ class BannerService{
         }
     } 
 
+    getById = async(filter)=>{
+        try {
+            const data = await BannerModel.findOne(filter)
+            .populate('createdBy',["_id", "name","email","role","image"]);
+
+            if(data){
+                return data;
+            }else{
+                throw {code:404, message:"Banner doesnot exist!"};
+            }
+
+        } catch (error) {
+            throw error;            
+        }
+    }
+
 }
 
 
