@@ -18,6 +18,20 @@ class BannerService{
         return data;
     }
 
+    transformEditRequest = (request) =>{
+        let data = {
+            ... request.body
+        }
+
+        
+        if(request.file){
+            data.image = request.file.filename
+            // TODO: Delete ond image after update operation
+        }
+
+        return data;
+    }
+
 
     storeBanner =async (req)=>{
         try {
@@ -69,6 +83,32 @@ class BannerService{
 
         } catch (error) {
             throw error;            
+        }
+    }
+
+
+    updateById = async(bannerId,payload)=>{
+        try {
+            let response = await BannerModel.findByIdAndUpdate(bannerId,{
+                $set:payload
+            })           
+
+            return response;  
+        } catch (error) {
+            throw error            
+        }
+    }
+
+    deleteById = async(bannerId)=>{
+        try {
+            let response = await BannerModel.findByIdAndDelete(bannerId);
+            if(response){
+                return response;
+            }else{
+                throw({code:404,message:"Banner already deleted or does not exists!"})
+            }
+        } catch (error) {
+            throw error;
         }
     }
 

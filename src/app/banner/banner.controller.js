@@ -1,3 +1,4 @@
+const { deleteFile } = require('../../config/helper.js');
 const bannerSvc = require('./banner.services.js')
 
 class BannerController{
@@ -78,7 +79,7 @@ class BannerController{
     getDataById = async(req,res,next)=>{
         try {
             const {id} = req.params.id;
-            const data = await authSvc.getPatById({
+            const data = await bannerSvc.getById({
                 id:id,
                 createdBy:req.authUser._id
             });
@@ -91,6 +92,85 @@ class BannerController{
 
         } catch (error) {
             next(error)            
+        }
+    }
+
+
+
+    
+    updateById = async (req,res,next)=>{
+        try {
+            // TOTO:Update Banner
+            const bannerId = req.params.id;
+            await bannerSvc.getById({
+                _id:bannerId,
+                createdBy:req.authUser._id
+            });
+
+            // update operation
+            const payload = bannerSvc.transformEditRequest(req);
+            const oldBanner = bannerSvc.updateById(bannerId,payload);
+
+            if(payload.image){
+                // delete Old image
+                deleteFile("./public/uploads/banner/",oldBanner.image);
+            }
+
+
+            res.json({
+                result:oldBanner,
+                message:"Banner updated successfully!",
+                meta:null
+            })
+        } catch (error) {
+            next(error);            
+        }
+    }
+
+    deleteById = async(req,res,next)=>{
+        try {
+            const bannerId = req.params.id;
+            await bannerSvc.getById({
+                _id:bannerId,
+                createdBy:req.authUser._id
+            });
+
+            let deleteBanner = await bannerSvc.deleteById(bannerId);
+
+            if(deleteBanner.image){
+                deleteFile('./public/uploads/banner/',deleteBanner.image);
+            }
+
+            res.json({
+                result:deleteBanner,
+                message:"Banner Deleted Successfully!",
+                meta:null
+            })
+
+        } catch (error) {
+            next(error);            
+        }
+    }
+
+
+    listHome = async (req,res,next)=>{
+        try {
+            const response = await bannerSvc.listAllData({
+                status:"active",
+                // startDate:{$lte:new Date()},
+                // endDate:{$gte:new Date()}
+            },{
+                offset:0,
+                limit:10
+            })
+
+            res.json({
+                result:response,
+                message:"Banner fetched!",
+                meta:null
+            })
+        } catch (error) {
+            next(error);            
         }
     }
 }

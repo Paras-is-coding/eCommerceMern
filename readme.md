@@ -593,3 +593,23 @@ Blogs
 * getBannerById 
 - to get banner details
 - .get route > checkLogin, CheckPermission("admin"), bannerCtrl.getDataById
+
+
+* updateBannerById
+- to update banner 
+- .put/patch route > checkLogin, CheckPermission('admin'),dirSet,uploader.single('image'),Validator(BannerCreateSchema),bannerCtrl.updateById
+- controller> getBannerDetail, transformRequest, updateBanner and if delete old image if image exist in payload
+
+
+# delete banner 
+
+* deleteBannerById
+- create delete route, deleteBanner and associated image
+
+
+# get banners for home page
+* home route for getting all banners
+- create'/home' route at top of bannerRouter
+- in controller get banners with reqired page and all
+
+___________________ Banner module is completed for now ________________________________

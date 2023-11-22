@@ -17,7 +17,10 @@ const dirSet = (req,res,next)=>{
     req.uploadDir = './public/uploads/banner'
     next();
 }
-            
+     
+bannerRouter.get('/home',bannerCtrl.listHome);
+
+
 bannerRouter.route('/')
     .get(
         checkLogin,
@@ -38,6 +41,19 @@ bannerRouter.route("/:id")
             checkLogin,
             CheckPermission("admin"),
             bannerCtrl.getDataById
+        )
+        .put(
+            checkLogin,
+            CheckPermission('admin'),
+            dirSet,
+            uploader.single('image'),
+            ValidateRequest(BannerCreateSchema),
+            bannerCtrl.updateById
+        )
+        .delete(
+            checkLogin,
+            CheckPermission("admin"),
+            bannerCtrl.deleteById
         )
 
 
