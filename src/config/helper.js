@@ -29,7 +29,7 @@ const getTokenFromHeader = (req) =>{
 }
 
 const deleteFile = (path,filename) =>{
-  fs.existsSync(path) && fs.unlinkSync(path+filename);
+  filename && fs.existsSync(path) && fs.unlinkSync(path+filename);
 }
 
 

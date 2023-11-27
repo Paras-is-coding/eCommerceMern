@@ -109,6 +109,12 @@ class BannerController{
 
             // update operation
             const payload = bannerSvc.transformEditRequest(req);
+
+            // to not update image if null or undefined
+            if(!payload.image || payload.image === ''){
+                delete payload.image;
+            }
+            
             const oldBanner = bannerSvc.updateById(bannerId,payload);
 
             if(payload.image){

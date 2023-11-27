@@ -9,6 +9,10 @@ class BrandController{
             // collect all input data, move code to services
             let payload = brandSvc.transformCreateRequest(req);
 
+             // to not update image if null or undefined
+             if(!payload.image || payload.image === ''){
+                delete payload.image;
+            }
             
             // create brand
             let created = await brandSvc.storeBrand(payload);
