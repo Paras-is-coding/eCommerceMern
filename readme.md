@@ -649,3 +649,11 @@ title, slug, description, image, status, createdBy
 - brand.service.js
     - replace, 
     - changes in transformCreateRequest() -> append data.slug using 'slugify' pkg
+
+
+
+# making category Comp. copypaste and edit brand Comp.
+
+- in model add 'parentId'
+- in router add categoryRouter 
+- and make few changes in controller, services and validator
