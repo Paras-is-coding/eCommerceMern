@@ -1,8 +1,10 @@
+const { accessCheck } = require('../../middlewares/accessCheck.middleware');
 const checkLogin = require('../../middlewares/auth.middleware');
 const CheckPermission = require('../../middlewares/rbac.middleware');
 const uploader = require('../../middlewares/uploader.middleware');
 const ValidateRequest = require('../../middlewares/validate-request.middleware');
 const categoryCtrl = require('./category.controller');
+const categorySvc = require('./category.services');
 const { CategoryCreateSchema } = require('./category.validator');
 
 const categoryRouter = require('express').Router()
@@ -49,6 +51,7 @@ categoryRouter.route("/:id")
             dirSet,
             uploader.single('image'),
             ValidateRequest(CategoryCreateSchema),
+            accessCheck(categorySvc),
             categoryCtrl.updateById
         )
         .delete(

@@ -82,7 +82,9 @@ class CategoryService{
     getById = async(filter)=>{
         try {
             const data = await CategoryModel.findOne(filter)
-            .populate('createdBy',["_id", "name","email","role","image"]);
+            .populate('createdBy',["_id", "name","email","role","image"])
+            .populate('parentId',['_id',"name","slug","image","createdBy","parentId"]);
+
 
             if(data){
                 return data;

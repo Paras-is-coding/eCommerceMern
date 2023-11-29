@@ -112,10 +112,10 @@ class CategoryController{
         try {
             // TOTO:Update Category
             const categoryId = req.params.id;
-            await categorySvc.getById({
-                _id:categoryId,
-                createdBy:req.authUser._id
-            });
+            // await categorySvc.getById({
+            //     _id:categoryId,
+            //     createdBy:req.authUser._id
+            // });
 
             // update operation
             const payload = categorySvc.transformEditRequest(req);

@@ -657,3 +657,5 @@ title, slug, description, image, status, createdBy
 - in model add 'parentId'
 - in router add categoryRouter 
 - and make few changes in controller, services and validator
+
+- make checkAcces middleware function to make filter before fetching data for access(optional)
