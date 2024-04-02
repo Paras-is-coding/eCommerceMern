@@ -2,6 +2,8 @@ const express = require('express');
 const router = require('../router/index.js');
 const { MulterError } = require('multer');
 const {ZodError} = require('zod')
+const cors = require('cors')
+
 
 //create express app
 const app = express();
@@ -9,9 +11,17 @@ const app = express();
 // establish DB connection
 require('./db.config.js');
 
+
+app.use(cors());
+
+
 // parsing different data_formats
 app.use(express.json())
 app.use(express.urlencoded({extended:false}))
+
+// for sending image to frontend, we expose this endpoint for frontend
+// http://localhost:3000/images/
+app.use('/images',express.static('./public/uploads'))
 
 // mount router to app for using router level middlewares
 app.use('/api/v1/',router)

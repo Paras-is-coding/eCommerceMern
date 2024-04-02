@@ -30,7 +30,7 @@ const categorySchema = new mongoose.Schema({
     parentId:{
         type:mongoose.Types.ObjectId,
         ref:"Category",
-        required:false
+        required:false,
     }
 },{
     autoIndex:true,

@@ -23,7 +23,6 @@ const dirSet = (req,res,next)=>{
 categoryRouter.get('/slug/:slug',categoryCtrl.getDetailBySlug);
 categoryRouter.get('/home',categoryCtrl.listHome);
 
-
 categoryRouter.route('/')
     .get(
         checkLogin,
@@ -51,7 +50,6 @@ categoryRouter.route("/:id")
             dirSet,
             uploader.single('image'),
             ValidateRequest(CategoryCreateSchema),
-            accessCheck(categorySvc),
             categoryCtrl.updateById
         )
         .delete(

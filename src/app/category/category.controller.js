@@ -14,6 +14,7 @@ class CategoryController{
             // DB operation  
 
             // collect all input data, move code to services
+
             let payload = categorySvc.transformCreateRequest(req);
 
              // to not update image if null or undefined

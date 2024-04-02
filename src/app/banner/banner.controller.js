@@ -78,9 +78,11 @@ class BannerController{
 
     getDataById = async(req,res,next)=>{
         try {
-            const {id} = req.params.id;
+            
+            const {id} = req.params;
+            // console.log(id)
             const data = await bannerSvc.getById({
-                id:id,
+                _id:id,
                 createdBy:req.authUser._id
             });
 

@@ -55,7 +55,7 @@ class authController {
     }
   };
 
-  setPassword = async (req, res, next) => {
+   setPassword = async (req, res, next) => {
     try {
       let data = req.body;
       console.log(data);

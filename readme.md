@@ -659,3 +659,21 @@ title, slug, description, image, status, createdBy
 - and make few changes in controller, services and validator
 
 - make checkAcces middleware function to make filter before fetching data for access(optional)
+
+
+# product component
+- create product model at product.model.js
+- change category.router.js to product.router.js
+    - change single to array for uploading images
+- change category.controller.js to product.controller.js
+- change category.validator.js to product.validator.js
+    - change validation according to product schema
+- change category.service.js to product.service.js
+    - change transform for multiple images 
+    - set category, brand and afterdiscount in transformation
+    - samething for updatetransform, make sure not to delete prev imgs
+
+    * Creating product we want to generate different slug even if name is same 
+    - In controller, we change slug using checkSlug()
+    - we create func. in productSvc
+

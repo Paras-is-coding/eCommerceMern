@@ -79,6 +79,11 @@ class CategoryService{
         }
     } 
 
+    // getBySlugWithProduct = async (filter) =>{
+
+    // } 
+    // we'll use this func. after product is ready by aggregiating for now we're using getbyId
+
     getById = async(filter)=>{
         try {
             const data = await CategoryModel.findOne(filter)
