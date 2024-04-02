@@ -1,6 +1,6 @@
 const { default: slugify } = require('slugify');
 const ProductModel = require('./product.model');
-const { generateRandomNumber } = require('../../config/helper');
+const { generateRandomString } = require('../../config/helper');
 
 class ProductService{
 
@@ -57,7 +57,7 @@ class ProductService{
             let count = await ProductModel.countDocuments({slug:slug})
             if(count>0){
                 // make unique slug
-                let random = generateRandomNumber(1000)
+                let random = generateRandomString(100)
                 slug = slug+"-"+random;
                 return await this.checkSlug(slug); // recursion until unique
             }else{
@@ -147,14 +147,18 @@ class ProductService{
     // } 
     // we'll use this func. after product is ready by aggregiating for now we're using getbyId
 
-    getById = async(filter)=>{
+    getData = async(filter,{limit=15,skip=0},sort={_id:"DESC",title:"asc"})=>{
         try {
             // id => findById()
             const data = await ProductModel.findOne(filter)
             .populate('createdBy',["_id", "name"])
             .populate('category',['_id',"title","slug","status"])
             .populate('brand',['_id',"title","slug","status"])
-            .populate('sellerId',['_id',"name"]);
+            .populate('sellerId',['_id',"name"])
+            .sort(sort)
+            .skip(skip)
+            .limit(limit)
+
 
             if(data){
                 return data;

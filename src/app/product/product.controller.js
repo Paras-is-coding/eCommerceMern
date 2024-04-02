@@ -86,7 +86,7 @@ class ProductController{
         try {
             const {id} = req.params;
             
-            const data = await productSvc.getById({
+            const data = await productSvc.getData({
                 _id:id,
                 createdBy:req.authUser._id
             });
@@ -106,10 +106,7 @@ class ProductController{
         try {
             // TOTO:Update Product
             const productId = req.params.id;
-            // await productSvc.getById({
-            //     _id:productId,
-            //     createdBy:req.authUser._id
-            // });
+      
 
             // update operation
             const payload = productSvc.transformEditRequest(req);
@@ -139,7 +136,7 @@ class ProductController{
     deleteById = async(req,res,next)=>{
         try {
             const productId = req.params.id;
-            await productSvc.getById({
+            await productSvc.getData({
                 _id:productId,
                 createdBy:req.authUser._id
             });
@@ -147,7 +144,7 @@ class ProductController{
             let deleteProduct = await productSvc.deleteById(productId);
 
             if(deleteProduct.images){
-                deleteFile('./public/uploads/product/',deleteProduct.image);
+                deleteFile('./public/uploads/product/',deleteProduct.images);
             }
 
             res.json({
@@ -224,7 +221,8 @@ class ProductController{
 
     getDetailBySlug = async(req,res,next)=>{
         try {
-            let productDetail = await productSvc.getById({
+            
+            let productDetail = await productSvc.getData({
                 slug:req.params.slug,
                 status:"active"
             });
@@ -232,8 +230,7 @@ class ProductController{
             // TODO: Product list
             res.json({
                 result:{
-                    // detail:productDetail,
-                    product:nullable,
+                    product:productDetail,
                 },
                 message:"product Detail from Slug",
                 meta:null

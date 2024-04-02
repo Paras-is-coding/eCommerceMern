@@ -677,3 +677,42 @@ title, slug, description, image, status, createdBy
     - In controller, we change slug using checkSlug()
     - we create func. in productSvc
 
+
+NOTE: 
+- Updates on other routes 
+1. brand details by slug: also send products 
+2. category details by slug: also send products 
+
+
+# product review 
+TODO:
+- model: productId, reviewerId, review, rate(1-5), 
+- APIS
+    - product/:productId/review  -> post to create
+        (only loggedIn customer ==> Only ordered by)
+    - product/:productId/review  -> put to update
+        =>Permission, revieserId = authUser._id
+
+
+
+
+# user component 
+- get user by role and status routes 
+
+
+
+
+-- server to server request -- 
+- same as client to server (using axios , etc)
+- sometimes we even dont write CRUD instead call other APIS on certain calls in our application (API gateway)
+
+
+
+## MORE FEATURES
+- Offers
+- Seller
+- Customer Dashboard(listings , histories ,etc)
+- XP Calculations
+    - based on Purchase
+    - Convert purchase to XP by 0.5%
+    - Product Purchase Redeem

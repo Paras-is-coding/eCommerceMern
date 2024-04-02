@@ -11,7 +11,7 @@ const ProductCreateSchema = z.object({
     attributes: z.array(z.object({
         key: z.string(),
         value: z.array(z.string())
-    })).nullable(),
+    })).nullable().optional(),
     tag:z.string().nullable(),
     sellerId:z.string().nullable(),
     status:z.string().regex(/active|inactive/).default('inactive')

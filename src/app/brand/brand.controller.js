@@ -1,4 +1,5 @@
 const { deleteFile } = require('../../config/helper.js');
+const productSvc = require('../product/product.service.js');
 const brandSvc = require('./brand.services.js')
 
 class BrandController{
@@ -224,15 +225,67 @@ class BrandController{
                 slug:req.params.slug,
                 status:"active"
             });
+            console.log(brandDetail)
 
             // TODO: Product list
+            let filter = {
+                brand:brandDetail._id,
+                status:"active"
+            }
+
+               // search ko lagi filter edit
+               if(req.query.search){
+                filter = {
+                    $and:[
+                        ...filter,
+                        {$or:[
+                            {title:new RegExp(req.query.search,'i')},
+                            {summary:new RegExp(req.query.search,'i')},
+                            {description:new RegExp(req.query.search,'i')},
+                        ]}
+                    ]
+                }
+            }else{
+                filter = {
+                    $and:[
+                        ...filter
+                    ]
+                }
+            }
+            //...
+
+            
+            // sorting ko lagi 
+            let sort = {_id:"DESC",title:"asc"}
+            if(req.query.sort){
+                // key and direction
+                // ?sort=price,asc/desc  
+                let sortSplit = req.query.sort.split(','); //["price","asc"]
+                sort = {[sortSplit[0]]:sortSplit[1]}
+
+            }
+
+
+            const total = await productSvc.countData(filter);
+            const limit = +req.query.limit || 10;
+            const page = +req.query.page || 1;
+            const skip = (page-1) * limit;
+            const products = await productSvc.getData(filter,{limit,skip},sort);
+
+
+            
+
             res.json({
                 result:{
                     detail:brandDetail,
-                    product:nullable,
+                    product:products,
                 },
                 message:"brand Detail from Slug",
-                meta:null
+                meta:{
+                    total:total,
+                    page:page,
+                    limit:limit
+                }
             })
         } catch (error) {
             next(error)            

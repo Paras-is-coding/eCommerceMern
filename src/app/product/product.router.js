@@ -3,7 +3,7 @@ const { accessCheck } = require('../../middlewares/accessCheck.middleware.js')
 const checkLogin = require('../../middlewares/auth.middleware.js')
 const CheckPermission = require('../../middlewares/rbac.middleware.js')
 const uploader = require('../../middlewares/uploader.middleware.js')
-const Validator = require('../../middlewares/validator.middleware.js')
+const ValidateRequest = require('../../middlewares/validate-request.middleware.js')
 const productCtrl = require('./product.controller.js')
 const productSvc = require('./product.service.js')
 const { ProductCreateSchema } = require('./product.validator.js')
@@ -32,7 +32,7 @@ productRouter.route('/')
         CheckPermission('admin'),
         dirSet,
         uploader.array('images'),
-        Validator(ProductCreateSchema),
+        ValidateRequest(ProductCreateSchema),
         productCtrl.productCreate
         )
 
@@ -49,7 +49,7 @@ productRouter.route("/:id")
             CheckPermission('admin'),
             dirSet,
             uploader.array('images'),
-            Validator(ProductCreateSchema),
+            ValidateRequest(ProductCreateSchema),
             accessCheck(productSvc),
             productCtrl.updateById
         )
