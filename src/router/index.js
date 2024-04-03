@@ -6,6 +6,8 @@ const categoryRouter = require('../app/category/category.router.js');
 const productRouter = require('../app/product/product.router.js');
 const userRouter = require('../app/user/user.router.js');
 
+const cartRouter = require('../app/cart/cart.router.js');
+
 
 
 // mounting authRouter to our main app router
@@ -15,6 +17,8 @@ router.use('/brand',brandRouter);
 router.use('/category',categoryRouter);
 router.use('/product',productRouter);
 router.use('/user',userRouter);
+
+router.use('/cart',cartRouter);
 
 
 

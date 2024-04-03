@@ -147,7 +147,7 @@ class ProductService{
     // } 
     // we'll use this func. after product is ready by aggregiating for now we're using getbyId
 
-    getData = async(filter,{limit=15,skip=0},sort={_id:"DESC",title:"asc"})=>{
+    getData = async(filter,paging={limit:15,skip:0},sort={_id:"DESC",title:"asc"})=>{
         try {
             // id => findById()
             const data = await ProductModel.findOne(filter)
@@ -156,8 +156,8 @@ class ProductService{
             .populate('brand',['_id',"title","slug","status"])
             .populate('sellerId',['_id',"name"])
             .sort(sort)
-            .skip(skip)
-            .limit(limit)
+            .skip(paging.skip)
+            .limit(paging.limit)
 
 
             if(data){

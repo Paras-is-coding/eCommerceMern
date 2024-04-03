@@ -694,6 +694,22 @@ TODO:
         =>Permission, revieserId = authUser._id
 
 
+# API Order and Cart
+- From e-commerce to e-commerce order management is diff.
+1. For cart 
+    -- ADD --
+    - created add to cart for product
+    - personalized cart need login (can also do without logn in frontend)
+    - if product exist in cart update is else insert
+    -- LIST -- 
+    - show full list to admin user and own list to customer user
+
+    -- DELETE --
+    - 
+
+    NOTE: Order is never deleted OR updated.
+          Computerized bill printing sys, machine to print bill is registered.
+2. For order
 
 
 # user component 

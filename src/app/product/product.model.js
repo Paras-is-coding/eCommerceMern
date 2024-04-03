@@ -48,7 +48,7 @@ const productSchema = new mongoose.Schema(
     sellerId: {
       type: mongoose.Types.ObjectId,
       ref: "User",
-      default:null
+      default:null,
     },
     images: [String],
     createdBy:{
