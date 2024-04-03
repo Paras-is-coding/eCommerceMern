@@ -11,6 +11,8 @@ const app = express();
 // establish DB connection
 require('./db.config.js');
 
+// Postgres DB connection if necessary
+// require('./sequelize.config.js')
 
 app.use(cors());
 
