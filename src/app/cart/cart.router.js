@@ -19,10 +19,21 @@ checkLogin,
 CheckPermission(['customer','admin']),
 cartCtrl.listCart
 )
+cartRouter.get('/order/list',
+checkLogin,
+CheckPermission(['customer','admin']),
+cartCtrl.listOrder
+)
 cartRouter.delete('/delete/:id',
 checkLogin,
 CheckPermission(['customer','admin']),
 cartCtrl.deleteCartItem
+)
+
+cartRouter.post('/order',
+checkLogin,
+CheckPermission(['customer','admin']),
+cartCtrl.placeOrder
 )
 
 module.exports=  cartRouter;

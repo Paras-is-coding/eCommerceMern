@@ -710,6 +710,9 @@ TODO:
     NOTE: Order is never deleted OR updated.
           Computerized bill printing sys, machine to print bill is registered.
 2. For order
+    * If cart is not personalized in DB do same for order
+    --- For this case we've saved cart in DB ---
+    - we convert cart to order by passing cart id's of products
 
 
 # user component 

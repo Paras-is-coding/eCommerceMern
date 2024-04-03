@@ -1,4 +1,5 @@
 const CartModel = require("./cart.model");
+const OrderModel = require("./order.model");
 
 class CartService{
 
@@ -79,6 +80,45 @@ class CartService{
             
         }
     }
+    getBillNo = async()=>{
+        try {
+            const lastOrder = await OrderModel.findOne()
+            .sort({_id:"DESC"});
+            
+          if(!lastOrder){
+            return 1;
+          }else{
+            return (+(lastOrder.billNo) + 1);
+          }
+
+        } catch (error) {
+            throw(error);
+            
+        }
+    }
+    placeOrder = async(orderData,cartIds)=>{
+        try {
+            let order = new OrderModel(orderData)
+            let orderObj = await order.save();
+
+           let cartUpdated = await CartModel.updateMany({
+                _id:{$in:cartIds}
+            },{
+                $set:{
+                    orderId: order._id
+                }
+            })
+
+
+            return {orderObj,cartUpdated};
+
+        } catch (error) {
+            throw(error);
+            
+        }
+    }
+
+    
 }
 
 
