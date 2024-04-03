@@ -4,7 +4,8 @@
   "description": "This is a ecommerce full MERN stack web application.",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -28,5 +29,9 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
+  },
+  "engines":{
+    "node": "v20.5.1",
+    "npm":"9.8.1"
   }
 }
