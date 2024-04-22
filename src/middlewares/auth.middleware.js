@@ -34,6 +34,12 @@ const checkLogin = async (req, res, next) => {
           });
 
           if (userDetail) {
+
+            if (userDetail.toObject) {
+              // If userDetail is a Mongoose Document, convert it to a plain JavaScript object
+              userDetail = userDetail.toObject();
+          }
+            delete userDetail.password; 
             req.authUser = userDetail; // sometimes in next midd. we may need this data
             next();
           } else {

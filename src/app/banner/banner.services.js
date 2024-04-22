@@ -48,7 +48,7 @@ class BannerService{
             // fetch lists also populate createdBy data from users table
             let list = await BannerModel.find(filter)
                             .populate('createdBy',["_id", "name","email","role","image"])
-                            .sort({_id:1})
+                            .sort({_id:0})
                             .skip(paging.offset)
                             .limit(paging.limit)
 

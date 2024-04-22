@@ -6,7 +6,8 @@ class CartController {
   addToCart = async (req, res, next) => {
     try {
       const { productId, qty } = req.body;
-      const product = await productSvc.getData({ _id: productId });
+
+      const product = (await productSvc.getData({ _id: productId }))[0];
       const buyer = req.authUser;
 
       const data = new CartRequest().transformCart(product, buyer, qty);
@@ -61,7 +62,9 @@ class CartController {
       res.json({
         result: detail,
         message: "Successfully fetched placed orders!",
-        meta: null,
+        meta: {
+          total:detail.length
+        },
       });
     } catch (error) {
       next(error);

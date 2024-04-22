@@ -729,7 +729,8 @@ TODO:
 
 ## MORE FEATURES
 - Offers
-- Seller
+- Seller 
+    * Like storing user can use same or diff table, If same (set fields for other diff type user null) & validate with condn OR If diff store specific data in diff table
 - Customer Dashboard(listings , histories ,etc)
 - XP Calculations
     - based on Purchase

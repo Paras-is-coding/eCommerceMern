@@ -8,11 +8,13 @@ const ProductCreateSchema = z.object({
     price:z.string().regex(/^\d+$/),
     discount:z.string().regex(/^\d+$/).min(0).max(100).nullable(),
     brand:z.string().nullable(),
-    attributes: z.array(z.object({
+    
+    attributes:z.array( z.object({
         key: z.string(),
         value: z.array(z.string())
     })).nullable().optional(),
-    tag:z.string().nullable(),
+
+    tags:z.string().nullable(),
     sellerId:z.string().nullable(),
     status:z.string().regex(/active|inactive/).default('inactive')
 })

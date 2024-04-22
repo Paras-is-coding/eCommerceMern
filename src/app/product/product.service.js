@@ -22,6 +22,11 @@ class ProductService{
         }else{
             data.category = null;
         }
+        if(data.tags && data.tags !== 'null'){
+            data.tags = data.tags.split(",");
+        }else{
+            data.tags = null;
+        }
 
         if(!data.brand || data.brand === 'null'){
             data.brand = null;
@@ -150,7 +155,7 @@ class ProductService{
     getData = async(filter,paging={limit:15,skip:0},sort={_id:"DESC",title:"asc"})=>{
         try {
             // id => findById()
-            const data = await ProductModel.findOne(filter)
+            const data = await ProductModel.find(filter)
             .populate('createdBy',["_id", "name"])
             .populate('category',['_id',"title","slug","status"])
             .populate('brand',['_id',"title","slug","status"])
@@ -159,12 +164,12 @@ class ProductService{
             .skip(paging.skip)
             .limit(paging.limit)
 
+            return data;
 
-            if(data){
-                return data;
-            }else{
-                throw {code:404, message:"Product doesnot exist!"};
-            }
+            // if(data){
+            // }else{
+            //     throw {code:404, message:"Product doesnot exist!"};
+            // }
 
         } catch (error) {
             throw error;            

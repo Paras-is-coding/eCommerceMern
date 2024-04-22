@@ -44,7 +44,7 @@ class CartService{
     getByFilter = async(filter)=>{
         try {
             const cartDetail = await CartModel.find(filter)
-            .populate('productId',["_id","title",'price','discount','afterDiscount'])
+            .populate('productId',["_id","slug","title",'price','discount','afterDiscount'])
             .populate('buyerId',['_id','name'])
             .populate('seller',['_id','name'])
 

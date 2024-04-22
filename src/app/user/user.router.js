@@ -1,12 +1,10 @@
 const userRouter = require('express').Router()
-// const { accessCheck } = require('../../middlewares/accessCheck.middleware.js')
 const checkLogin = require('../../middlewares/auth.middleware.js')
 const CheckPermission = require('../../middlewares/rbac.middleware.js')
 const uploader = require('../../middlewares/uploader.middleware.js')
-// const Validator = require('../../middlewares/validator.middleware.js')
+const ValidateRequest = require('../../middlewares/validate-request.middleware.js')
 const userCtrl = require('./user.controller.js')
-// const userSvc = require('./user.service.js')
-// const { UserCreateSchema } = require('./user.validator.js')
+const { updateUserSchema, createUserSchema } = require('./user.validator.js')
 
 
             
@@ -15,41 +13,44 @@ const dirSet = (req,res,next)=>{
     next();
 }
 
-// userRouter.get('/slug/:slug',userCtrl.getDetailBySlug);
-// userRouter.get('/home',userCtrl.listHome);
-
 userRouter.get("/by-status/:status",userCtrl.getUserByStatus)
 userRouter.get("/by-role/:role",userCtrl.getUserByRole)
 
 
-// userRouter.route('/')
-//     .get(
-//         checkLogin,
-//         CheckPermission('admin'),
-//         userCtrl.listAllUsers
-//     )
-  
+userRouter.route('/')
+    .get(
+        checkLogin,
+        CheckPermission('admin'),
+        userCtrl.listAllUsers
+    )
+    .post(
+        checkLogin,
+        CheckPermission('admin'),
+        dirSet,
+        uploader.single('image'),
+        ValidateRequest(createUserSchema),
+        userCtrl.createUserByAdmin
+    )
 
 
-// userRouter.route("/:id")
-//         .get(
-//             checkLogin,
-//             CheckPermission("admin"),
-//             userCtrl.getDataById
-//         )
-//         .put(
-//             checkLogin,
-//             CheckPermission('admin'),
-//             dirSet,
-//             uploader.array('images'),
-//             Validator(UserCreateSchema),
-//             accessCheck(userSvc),
-//             userCtrl.updateById
-//         )
-//         .delete(
-//             checkLogin,
-//             CheckPermission("admin"),
-//             userCtrl.deleteById
-//         )
+userRouter.route("/:id")
+        .get(
+            checkLogin,
+            CheckPermission("admin"),
+            userCtrl.getDataById
+        )
+        .put(
+            checkLogin,
+            CheckPermission('admin'),
+            dirSet,
+            uploader.single('image'),
+            ValidateRequest(updateUserSchema),
+            userCtrl.updateById
+        )
+        .delete(
+            checkLogin,
+            CheckPermission("admin"),
+            userCtrl.deleteById
+        )
 
 module.exports = userRouter

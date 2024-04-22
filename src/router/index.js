@@ -9,7 +9,6 @@ const userRouter = require('../app/user/user.router.js');
 const cartRouter = require('../app/cart/cart.router.js');
 
 
-
 // mounting authRouter to our main app router
 router.use(authRouter);
 router.use('/banner',bannerRouter);

@@ -25,6 +25,7 @@ app.use(express.urlencoded({extended:false}))
 // http://localhost:3000/images/
 app.use('/images',express.static('./public/uploads'))
 
+
 // mount router to app for using router level middlewares
 app.use('/api/v1/',router)
 

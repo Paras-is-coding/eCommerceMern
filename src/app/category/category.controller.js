@@ -238,18 +238,19 @@ class CategoryController{
                 slug:req.params.slug,
                 status:"active"
             });
+            console.log(typeof(categoryDetail))
 
             // TODO: Product list
-            let filter = [
-                {category:{$in:[categoryDetail[0]._id],$nin:null}},
+            let productFilter = [
+                {category:{$in:[categoryDetail._id],$nin:null}},
                 {status:"active"}
             ]
 
             // search ko lagi filter edit
             if(req.query.search){
-                filter = {
+                productFilter = {
                     $and:[
-                        ...filter,
+                        ...productFilter,
                         {$or:[
                             {title:new RegExp(req.query.search,'i')},
                             {summary:new RegExp(req.query.search,'i')},
@@ -258,9 +259,9 @@ class CategoryController{
                     ]
                 }
             }else{
-                filter = {
+                productFilter = {
                     $and:[
-                        ...filter
+                        ...productFilter
                     ]
                 }
             }
@@ -277,11 +278,11 @@ class CategoryController{
 
             }
 
-            const total = await productSvc.countData(filter);
+            const total = await productSvc.countData(productFilter);
             const limit = +req.query.limit || 10;
             const page = +req.query.page || 1;
             const skip = (page-1) * limit;
-            const products = await productSvc.getData(filter,{limit,skip},sort);
+            const products = await productSvc.getData(productFilter,{limit,skip},sort);
 
 
             res.json({
@@ -297,6 +298,7 @@ class CategoryController{
                 }
             })
         } catch (error) {
+            console.log(error)
             next(error)            
         }
     }
