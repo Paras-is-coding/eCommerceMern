@@ -27,7 +27,7 @@ productRouter.get("/home", productCtrl.listHome);
 
 // Create review for a product
 productRouter.post(
-  "/:productId/review",
+  "/review/:productId",
   checkLogin,
   ValidateRequest(ReviewCreateSchema),
   productCtrl.createReview
@@ -40,6 +40,9 @@ productRouter.put(
   ValidateRequest(ReviewUpdateSchema),
   productCtrl.updateReview
 );
+
+
+productRouter.get("/reviews/:productId", productCtrl.getAllReviews);
 
 productRouter
   .route("/")

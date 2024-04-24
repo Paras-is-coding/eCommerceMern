@@ -319,6 +319,22 @@ class ProductController {
   };
 
 
+  getAllReviews = async (req, res, next) => {
+    try {
+      const productId = req.params.productId;
+  
+    
+      const reviews = await ReviewModel.find({ productId });
+  
+      res.json({
+        reviews: reviews,
+        message: "All reviews fetched successfully",
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
 
 
 
