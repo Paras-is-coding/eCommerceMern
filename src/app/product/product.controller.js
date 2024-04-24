@@ -162,45 +162,43 @@ class ProductController {
 
   listHome = async (req, res, next) => {
     try {
-      // ---
-
       let filter = {};
-
+  
       if (req.query["search"]) {
-        filter = {
-          // search keyword on title, url, status
-          $or: [
-            { title: new RegExp(req.query["search"], "i") },
-            { description: new RegExp(req.query["search"], "i") },
-          ],
-        };
+        filter.$or = [
+          { title: new RegExp(req.query["search"], "i") },
+          { description: new RegExp(req.query["search"], "i") },
+        ];
       }
+  
+      if (req.query["category"]) {
+        filter.category = { $in: [req.query["category"]] };
+      }
+  
+      if (req.query["brand"]) {
+        filter.brand = req.query["brand"];
+      }
+  
+      // Add condition for status and other filters
       filter = {
         $and: [
-          // {createdBy:req.authUser._id},
           { status: "active" },
           { ...filter },
         ],
       };
-
+  
       // pagination
       let page = req.query["page"] || 1;
       let limit = req.query["limit"] || 15;
-
-      let total = await productSvc.countData(filter);
-      // total=100, 7 page
-      // 1st =>0-14, 2nd=>15-29 ...
       let skip = (page - 1) * limit;
-
-      // ---
-
-      // when we want data sorted from frontend
+  
+      // Sorting
       let sort = { _id: "DESC" };
       if (req.query.sort) {
         let split = req.query.sort.split(","); // sort=title,desc
         sort = { [split[0]]: split[1] };
       }
-
+  
       const response = await productSvc.listAllData(
         filter,
         {
@@ -211,7 +209,7 @@ class ProductController {
           sort: sort,
         }
       );
-
+  
       res.json({
         result: response,
         message: "Product fetched!",
@@ -221,6 +219,7 @@ class ProductController {
       next(error);
     }
   };
+  
 
   getDetailBySlug = async (req, res, next) => {
     try {
